@@ -1,5 +1,5 @@
-Python Webserver Examples
-==========================
+Python Webserver Examples (gbb clone)
+======================================
 
 When developing a website in Python, there is endless documentation on deploying
 a webserver, to the point where it can get a bit confusing. This codebase is
