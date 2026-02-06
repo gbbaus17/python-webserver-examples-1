@@ -1,14 +1,12 @@
 # This workflow uses actions from examples on mslearn and from copilot example lookups
 # We could explicitly specify the tools using a comma-separated list, like this
-# tools: bandit,binskim,checkov,eslint
+#     tools: bandit,binskim,checkov,eslint
 # or we can leave tools unspecified and rely on defaults (as below)
+#
+# ps: For source‑code scanning (Python, JS, IaC), 
+#     ubuntu-latest is the better default; windows-latest is only needed when you’re scanning Windows/.NET binaries.
 
 name: "Microsoft Defender For Devops -gbbmail default scan with no dotnet"
-
-jobs:
-  MSDO:
-    runs-on: windows-latest
-
 
 on:
   push:
@@ -17,12 +15,17 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+jobs:
+  MSDO:
+    source_scan:
+      runs-on: ubuntu-latest
+    
     permissions:
       contents: read
       actions: read
       id-token: write
       security-events: write
-
+        
     steps:
       - uses: actions/checkout@v4
 
