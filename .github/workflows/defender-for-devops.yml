@@ -1,0 +1,36 @@
+# This workflow uses actions from examples on mslearn and from copilot example lookups
+# We could explicitly specify the tools using a comma-separated list, like this
+# tools: bandit,binskim,checkov,eslint
+# or we can leave tools unspecified and rely on defaults (as below)
+
+name: "Microsoft Defender For Devops -gbbmail default scan with no dotnet"
+
+jobs:
+  MSDO:
+    runs-on: windows-latest
+
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Microsoft Security DevOps (default/all applicable)
+        uses: microsoft/security-devops-action@v1.6.0
+        id: msdo
+
+      - name: Upload results to Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.msdo.outputs.sarifFile }}
